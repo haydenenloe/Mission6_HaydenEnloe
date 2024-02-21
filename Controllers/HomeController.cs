@@ -35,6 +35,5 @@ namespace Mission6_HaydenEnloe.Controllers // overarching name of the project
 
             return View("Confirmation", response); 
         }
-
     }
 }
