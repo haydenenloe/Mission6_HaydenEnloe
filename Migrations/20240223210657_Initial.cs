@@ -23,7 +23,7 @@ namespace Mission6_HaydenEnloe.Migrations
                     Rating = table.Column<string>(type: "TEXT", nullable: false),
                     Edited = table.Column<bool>(type: "INTEGER", nullable: true),
                     Lent_to = table.Column<string>(type: "TEXT", nullable: true),
-                    Notes = table.Column<string>(type: "TEXT", nullable: true)
+                    Notes = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {

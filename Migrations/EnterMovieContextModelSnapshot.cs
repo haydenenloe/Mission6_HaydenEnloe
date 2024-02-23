@@ -38,6 +38,7 @@ namespace Mission6_HaydenEnloe.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Notes")
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Rating")

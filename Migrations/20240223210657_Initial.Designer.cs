@@ -11,7 +11,7 @@ using Mission6_HaydenEnloe.Models;
 namespace Mission6_HaydenEnloe.Migrations
 {
     [DbContext(typeof(EnterMovieContext))]
-    [Migration("20240217051555_Initial")]
+    [Migration("20240223210657_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -41,6 +41,7 @@ namespace Mission6_HaydenEnloe.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Notes")
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Rating")
