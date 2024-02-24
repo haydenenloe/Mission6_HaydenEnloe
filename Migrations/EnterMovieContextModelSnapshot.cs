@@ -17,24 +17,40 @@ namespace Mission6_HaydenEnloe.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
-            modelBuilder.Entity("Mission6_HaydenEnloe.Models.EnterMovie", b =>
+            modelBuilder.Entity("Mission6_HaydenEnloe.Models.Category", b =>
                 {
-                    b.Property<int>("MovieID")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Director")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.HasKey("CategoryId");
 
-                    b.Property<bool?>("Edited")
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Mission6_HaydenEnloe.Models.EnterMovie", b =>
+                {
+                    b.Property<int>("MovieId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Lent_to")
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CopiedToPlex")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Director")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Edited")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LentTo")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Notes")
@@ -42,7 +58,6 @@ namespace Mission6_HaydenEnloe.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Rating")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -52,9 +67,20 @@ namespace Mission6_HaydenEnloe.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("MovieID");
+                    b.HasKey("MovieId");
 
-                    b.ToTable("Applications");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Mission6_HaydenEnloe.Models.EnterMovie", b =>
+                {
+                    b.HasOne("Mission6_HaydenEnloe.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

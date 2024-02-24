@@ -7,9 +7,19 @@
 
 <form method="post">
 
+    <div>
+        <input type="hidden" asp-for="MovieId" />
+    </div>
+
     <div class="form-group">
-        <label asp-for="Category">Category:</label>
-        <input asp-for="Category" class="form-control" required />
+        <label asp-for="CategoryId">Category:</label>
+        <select asp-for="CategoryId" class="form-control" required>
+            <option value="">Select a Category</option>
+            @foreach (Category c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryId">@c.CategoryName</option>
+            }
+        </select>
         <br />
     </div>
 
@@ -39,6 +49,11 @@
             <option value="PG">PG</option>
             <option value="PG-13">PG-13</option>
             <option value="R">R</option>
+            <option value="NR">NR</option>
+            <option value="TV-14">TV-14</option>
+            <option value="TV-G">TV-G</option>
+            <option value="TV-Y7">TV-Y7</option>
+            <option value="UR">UR</option>
         </select>
         <br />
     </div>
@@ -46,15 +61,24 @@
     <div class="form-group">
         <label asp-for="Edited">Edited:</label>
         <select asp-for="Edited" class="form-control">
-            <option value="true">Yes</option>
-            <option value="false">No</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
         <br />
     </div>
 
     <div class="form-group">
-        <label asp-for="Lent_to">Lent To:</label>
-        <input asp-for="Lent_to" class="form-control" />
+        <label asp-for="LentTo">Lent To:</label>
+        <input asp-for="LentTo" class="form-control" />
+        <br />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CopiedToPlex">Copied to Plex:</label>
+        <select asp-for="CopiedToPlex" class="form-control" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
         <br />
     </div>
 
@@ -65,4 +89,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
+
+    <div asp-validation-summary="All"></div>
+
 </form>

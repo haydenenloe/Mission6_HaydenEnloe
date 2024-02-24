@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Mission6_HaydenEnloe.Models;
 using System.Diagnostics;
 
@@ -29,21 +30,89 @@ namespace Mission6_HaydenEnloe.Controllers // overarching name of the project
         [HttpGet]
         public IActionResult Movies()
         {
-            return View();
+            ViewBag.Categories = _context.Categories
+                .OrderBy(x => x.CategoryName)
+                .ToList();
+
+            return View(new EnterMovie());
         }
 
         [HttpPost]
         public IActionResult Movies(EnterMovie response)
         {
-            _context.Applications.Add(response); // Add record to the database
-            _context.SaveChanges(); 
+            if (ModelState.IsValid)
+            {
+                _context.Movies.Add(response); // Add record to the database
+                _context.SaveChanges(); 
 
-            return View("Confirmation", response); 
+                return View("Confirmation", response); 
+            }
+            else
+            {
+                ViewBag.Categories = _context.Categories
+                    .OrderBy(x => x.CategoryName)
+                    .ToList();
+
+                return View(response);
+            }
         }
 
         public IActionResult MovieList ()
         {
-            return View();
+            // linq: the way to do SQL in C#
+            // x is the EnterMovie object
+            // _context is an instance of the EnterMovieContext class
+
+            var new_movie = _context.Movies.Include("Category")
+                .OrderBy(x => x.Director).ToList();
+
+            // if you are displaying a dynamic page, usually you would pass something in
+            // if it is a static page then you are fine to leave the () empty
+            return View(new_movie);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var recordToEdit = _context.Movies
+                .Single(x => x.MovieId == id);
+
+            ViewBag.Categories = _context.Categories
+                .OrderBy(x => x.CategoryName)
+                .ToList();
+
+            return View("Movies", recordToEdit);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EnterMovie updatedInfo)
+        {
+            _context.Update(updatedInfo);
+            _context.SaveChanges();
+
+            return RedirectToAction("MovieList");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var recordToDelete = _context.Movies
+                .Single(x =>x.MovieId == id);
+
+            //ViewBag.Categories = _context.Categories
+            //    .OrderBy(x => x.CategoryName)
+            //    .ToList();
+
+            return View(recordToDelete);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(EnterMovie deleteMovie)
+        {
+            _context.Movies.Remove(deleteMovie);
+            _context.SaveChanges();
+
+            return RedirectToAction("MovieList");
         }
     }
 }
